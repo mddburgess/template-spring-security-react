@@ -1,0 +1,8 @@
+language: java
+
+before_cache:
+  - rm -rfv $HOME/.m2/repository/org/example
+
+cache:
+  directories:
+    - $HOME/.m2
