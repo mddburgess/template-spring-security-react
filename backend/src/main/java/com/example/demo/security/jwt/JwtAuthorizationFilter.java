@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,18 +40,20 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private Authentication getAuthentication(String token) {
-        var jwsClaims = Jwts.parserBuilder()
-                .setSigningKey(jwtSecretKey)
-                .build()
-                .parseClaimsJws(token);
-
-        var claims = jwsClaims.getBody();
-        var username = claims.getSubject();
-        var scope = (List<String>) claims.get("scope", List.class);
-        var authorities = scope.stream().map(SimpleGrantedAuthority::new).collect(toList());
-
-        if (username != null) {
-            return new UsernamePasswordAuthenticationToken(username, null, authorities);
+        try {
+            var claims = Jwts.parserBuilder()
+                    .setSigningKey(jwtSecretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            var username = claims.getSubject();
+            if (username != null) {
+                var scope = (List<String>) claims.get("scope", List.class);
+                var authorities = scope.stream().map(SimpleGrantedAuthority::new).collect(toList());
+                return new UsernamePasswordAuthenticationToken(username, null, authorities);
+            }
+        } catch (JwtException ex) {
+            logger.warn(ex.getMessage());
         }
         return null;
     }
