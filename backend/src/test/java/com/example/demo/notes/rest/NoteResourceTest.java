@@ -21,8 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest
 public class NoteResourceTest {
@@ -46,28 +45,32 @@ public class NoteResourceTest {
         @Test
         void create() throws Exception {
             mvc.perform(post("/api/notes"))
-                    .andExpect(status().isUnauthorized());
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(header().string("WWW-Authenticate", "Bearer"));
             verifyNoInteractions(repository);
         }
 
         @Test
         void read() throws Exception {
             mvc.perform(get("/api/notes"))
-                    .andExpect(status().isUnauthorized());
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(header().string("WWW-Authenticate", "Bearer"));
             verifyNoInteractions(repository);
         }
 
         @Test
         void update() throws Exception {
             mvc.perform(put("/api/notes/1"))
-                    .andExpect(status().isUnauthorized());
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(header().string("WWW-Authenticate", "Bearer"));
             verifyNoInteractions(repository);
         }
 
         @Test
         void remove() throws Exception {
             mvc.perform(delete("/api/notes/1"))
-                    .andExpect(status().isUnauthorized());
+                    .andExpect(status().isUnauthorized())
+                    .andExpect(header().string("WWW-Authenticate", "Bearer"));
             verifyNoInteractions(repository);
         }
     }
