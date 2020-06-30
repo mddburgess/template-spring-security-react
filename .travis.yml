@@ -6,3 +6,5 @@ before_cache:
 cache:
   directories:
     - $HOME/.m2
+    - frontend/node
+    - frontend/node_modules
