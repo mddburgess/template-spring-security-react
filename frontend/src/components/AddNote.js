@@ -1,4 +1,6 @@
-import React from "react";
+import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export class AddNote extends React.Component {
 
@@ -6,16 +8,14 @@ export class AddNote extends React.Component {
         event.preventDefault();
         this.props.doAddNote(event.target.elements.text.value.trim());
         event.target.elements.text.value = '';
-    }
+    };
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.doAddNote}>
-                    <input type="text" name="text"/>
-                    <button>Add</button>
-                </form>
-            </div>
+            <Form inline onSubmit={this.doAddNote}>
+                <Form.Control name="text"/>
+                <Button type="submit">Add</Button>
+            </Form>
         );
     }
 }

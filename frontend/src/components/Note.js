@@ -1,8 +1,10 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import ListGroupItem from 'react-bootstrap/ListGroupItem';
 
 export const Note = ({text, doDeleteNote}) => (
-    <div>
-        <p>{text}</p>
-        <button onClick={() => doDeleteNote(text)}>x</button>
-    </div>
+    <ListGroupItem>
+        {text}
+        <Button size="sm" onClick={() => doDeleteNote(text)}>&times;</Button>
+    </ListGroupItem>
 );

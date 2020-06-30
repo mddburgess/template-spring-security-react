@@ -1,11 +1,12 @@
-import React from "react";
+import React from 'react';
+import Navbar from 'react-bootstrap/Navbar';
 
 export const Header = ({title}) => (
-    <div>
-        <h1>{title}</h1>
-    </div>
+    <Navbar bg="dark" variant="dark">
+        <Navbar.Brand>{title}</Navbar.Brand>
+    </Navbar>
 );
 
 Header.defaultProps = {
     title: 'Notes'
-}
+};

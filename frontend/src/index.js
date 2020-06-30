@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {NotesApp} from './components/NotesApp';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import { NotesApp } from './components/NotesApp';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <NotesApp />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <NotesApp/>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
