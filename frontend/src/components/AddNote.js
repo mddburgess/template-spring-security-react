@@ -6,7 +6,7 @@ export class AddNote extends React.Component {
 
     doAddNote = event => {
         event.preventDefault();
-        this.props.doAddNote(event.target.elements.text.value.trim());
+        this.props.doAddNote({text: event.target.elements.text.value.trim()});
         event.target.elements.text.value = '';
     };
 

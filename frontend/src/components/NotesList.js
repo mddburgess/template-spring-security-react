@@ -4,6 +4,6 @@ import {Note} from './Note';
 
 export const NotesList = ({notes, doDeleteNote}) => (
     <ListGroup>
-        {notes.map((text, idx) => <Note key={idx} text={text} doDeleteNote={doDeleteNote}/>)}
+        {notes.map((note, idx) => <Note key={idx} note={note} doDeleteNote={doDeleteNote}/>)}
     </ListGroup>
 );

@@ -1,5 +1,7 @@
+import Axios from 'axios';
 import React from 'react';
 import Container from 'react-bootstrap/Container';
+
 import {AddNote} from './AddNote';
 import {Header} from './Header';
 import {NotesList} from './NotesList';
@@ -10,22 +12,35 @@ export class NotesApp extends React.Component {
         notes: []
     };
 
-    doAddNote = text => {
-        this.setState(prevState => ({notes: prevState.notes.concat(text)}));
+    doAddNote = async note => {
+        try {
+            const response = await Axios.post('/api/notes', note);
+            this.setState(prevState => ({notes: prevState.notes.concat(response.data)}));
+        } catch (error) {
+            console.log(error);
+        }
     };
 
-    doDeleteNote = text => {
-        this.setState(prevState => ({notes: prevState.notes.filter(t => t !== text)}));
+    doDeleteNote = async note => {
+        try {
+            await Axios.delete(`/api/notes/${note.id}`);
+            this.setState(prevState => ({notes: prevState.notes.filter(n => n !== note)}));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    fetchNotes = async () => {
+        try {
+            const response = await Axios.get('/api/notes');
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     componentDidMount() {
-        try {
-            const notes = JSON.parse(localStorage.getItem('notes'));
-            if (notes) {
-                this.setState(() => ({notes}));
-            }
-        } catch (error) {
-        }
+        this.fetchNotes().then(notes => this.setState(() => ({notes})));
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
